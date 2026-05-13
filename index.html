@@ -1,807 +1,744 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bruno Grazina — Designer · Illustrator · Artist</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Permanent+Marker&display=swap" rel="stylesheet" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USERNAME — Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #000;
+    --surface: #0d0d0d;
+    --border: #2a2a2a;
+    --text: #c8c8c8;
+    --muted: #888;
+    --accent: #d0d0d0;
+    --white: #f0f0f0;
+    --bar-bg: #1a1a1a;
+    --tab-active: #3a3a3a;
+  }
 
-  <style>
-    /* ── Reset & tokens ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --black:   #0a0a0a;
-      --off-black: #111111;
-      --white:   #f0ede8;
-      --pink:    #ff1f6e;
-      --pink-dim:#c41054;
-      --grey:    #2a2a2a;
-      --font-display: 'Bebas Neue', sans-serif;
-      --font-hand:    'Permanent Marker', cursive;
-      --font-mono:    'Space Mono', monospace;
-    }
+  html { scroll-behavior: smooth; }
 
-    html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
 
-    body {
-      background: var(--black);
-      color: var(--white);
-      font-family: var(--font-mono);
-      overflow-x: hidden;
-      cursor: none;
-    }
+  /* ── PAGE WRAPPER ── */
+  .page {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 0 0 60px;
+  }
 
-    /* ── Custom cursor ── */
-    #cursor {
-      position: fixed; top: 0; left: 0; z-index: 9999;
-      width: 16px; height: 16px;
-      background: var(--pink);
-      border-radius: 50%;
-      pointer-events: none;
-      mix-blend-mode: difference;
-      transition: transform .15s ease, width .2s ease, height .2s ease;
-      transform: translate(-50%, -50%);
-    }
-    #cursor.big { width: 48px; height: 48px; }
+  /* ── HEADER CARD ── */
+  .header-card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    padding: 28px 20px 20px;
+    position: relative;
+  }
 
-    /* ── Grain overlay ── */
-    body::before {
-      content: '';
-      position: fixed; inset: 0; z-index: 9998;
-      pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      opacity: .04;
-    }
+  .username {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: clamp(26px, 7vw, 42px);
+    letter-spacing: 0.08em;
+    color: var(--white);
+    text-transform: uppercase;
+    grid-column: 1 / -1;
+    text-shadow: 0 0 30px rgba(255,255,255,0.08);
+    margin-bottom: 10px;
+  }
 
-    /* ── Nav ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.2rem 3rem;
-      background: rgba(10,10,10,.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--grey);
-    }
-    .nav-logo {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      letter-spacing: .15em;
-      color: var(--white);
-    }
-    .nav-logo span { color: var(--pink); }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      color: var(--white);
-      text-decoration: none;
-      font-size: .75rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      opacity: .7;
-      transition: opacity .2s, color .2s;
-    }
-    .nav-links a:hover { opacity: 1; color: var(--pink); }
+  .meta-left { display: flex; flex-direction: column; gap: 3px; }
 
-    /* ── Sections ── */
-    section { padding: 6rem 3rem; max-width: 1200px; margin: 0 auto; }
+  .meta-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: var(--muted);
+  }
 
-    /* ── HERO ── */
-    #hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-      padding-top: 8rem;
-      position: relative;
-      overflow: hidden;
-    }
+  .meta-row .label {
+    color: var(--accent);
+    font-weight: bold;
+  }
 
-    /* rotating ring text */
-    .ring-container {
-      position: absolute;
-      top: 8rem; left: -4rem;
-      width: 260px; height: 260px;
-      opacity: .18;
-      animation: spin 20s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .ring-container svg text {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      fill: var(--white);
-      letter-spacing: 4px;
-    }
+  .meta-row .sep { color: #444; }
 
-    .hero-left { position: relative; }
+  .meta-icon {
+    font-size: 14px;
+    color: #555;
+  }
 
-    /* polaroid card */
-    .polaroid {
-      background: var(--white);
-      padding: 1rem 1rem 3rem;
-      width: 280px;
-      transform: rotate(-3deg);
-      box-shadow: 0 20px 60px rgba(0,0,0,.6);
-      position: relative;
-      z-index: 2;
-    }
-    .polaroid img {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-      filter: grayscale(1) contrast(1.1);
-      display: block;
-    }
-    .polaroid-label {
-      margin-top: .8rem;
-      display: flex; justify-content: space-between; align-items: flex-end;
-      font-family: var(--font-hand);
-      color: #111;
-      font-size: .85rem;
-      padding: 0 .2rem;
-    }
+  /* Beast image */
+  .beast-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(1.2);
+    border: 1px solid #222;
+    flex-shrink: 0;
+    grid-row: 2 / 5;
+    grid-column: 2;
+    align-self: start;
+  }
 
-    /* sticker badges */
-    .sticker {
-      position: absolute;
-      font-size: .7rem;
-      font-family: var(--font-mono);
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      font-weight: 700;
-      padding: .35rem .7rem;
-      border: 2px solid currentColor;
-      border-radius: 2px;
-    }
-    .sticker-age {
-      bottom: 3.4rem; left: .5rem;
-      background: var(--black);
-      color: var(--white);
-      font-family: var(--font-hand);
-      font-size: .9rem;
-      border: none;
-      padding: 0;
-    }
-    .badge-designer {
-      top: -1.2rem; right: -2.5rem;
-      background: var(--pink);
-      color: var(--black);
-      transform: rotate(8deg);
-    }
+  .beast-placeholder {
+    width: 150px;
+    height: 150px;
+    background: #111;
+    border: 1px solid #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    grid-row: 2 / 6;
+    grid-column: 2;
+    align-self: start;
+    overflow: hidden;
+    position: relative;
+  }
 
-    /* plus cross deco */
-    .cross {
-      position: absolute;
-      font-size: 3rem;
-      line-height: 1;
-      color: var(--pink);
-      font-family: var(--font-display);
-      opacity: .9;
-    }
-    .cross-1 { top: 3rem; left: -2rem; font-size: 4rem; }
-    .cross-2 { bottom: 5rem; left: -3rem; font-size: 2rem; opacity: .4; }
+  .beast-placeholder svg {
+    width: 80%;
+    height: 80%;
+    opacity: 0.35;
+  }
 
-    /* hero right */
-    .hero-right { position: relative; }
+  /* Social icons */
+  .social-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+    align-items: center;
+  }
 
-    .hi-text {
-      font-family: var(--font-display);
-      font-size: clamp(5rem, 12vw, 10rem);
-      line-height: .9;
-      letter-spacing: .02em;
-      color: var(--white);
-      position: relative;
-      display: inline-block;
-    }
-    .hi-text::after {
-      content: '!!';
-      color: var(--pink);
-    }
+  .social-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #1c1c1c;
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 16px;
+  }
 
-    .intro-text {
-      margin-top: 1.5rem;
-      font-size: .8rem;
-      line-height: 1.7;
-      opacity: .8;
-      max-width: 340px;
-    }
-    .intro-text strong { color: var(--pink); font-style: italic; }
+  .social-btn:hover { background: #2a2a2a; border-color: #555; }
 
-    .tagline-block {
-      margin-top: 2rem;
-      display: flex; flex-direction: column; gap: 1.2rem;
-    }
-    .tagline-item { font-size: .8rem; line-height: 1.6; max-width: 340px; }
-    .tagline-item .label {
-      font-family: var(--font-hand);
-      color: var(--pink);
-      font-size: 1.05rem;
-      display: block;
-      margin-bottom: .2rem;
-    }
+  /* bio line */
+  .bio-line {
+    font-size: 12px;
+    color: #888;
+    margin-top: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
 
-    /* deco L mark */
-    .deco-L {
-      position: absolute;
-      right: -1rem; bottom: -2rem;
-      font-family: var(--font-display);
-      font-size: 6rem;
-      color: var(--white);
-      opacity: .15;
-    }
+  .bio-line .more-link {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    cursor: pointer;
+  }
 
-    /* ── ABOUT ── */
-    #about {
-      border-top: 1px solid var(--grey);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      align-items: start;
-    }
-    .section-tag {
-      font-family: var(--font-hand);
-      color: var(--pink);
-      font-size: 1rem;
-      margin-bottom: .5rem;
-      display: block;
-    }
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 6vw, 5rem);
-      letter-spacing: .05em;
-      line-height: 1;
-      margin-bottom: 1.5rem;
-    }
-    .about-body {
-      font-size: .8rem;
-      line-height: 1.9;
-      opacity: .75;
-    }
-    .info-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-    }
-    .info-item {}
-    .info-label {
-      font-size: .65rem;
-      text-transform: uppercase;
-      letter-spacing: .2em;
-      color: var(--pink);
-      margin-bottom: .3rem;
-    }
-    .info-value {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      letter-spacing: .05em;
-    }
+  .credit {
+    text-align: right;
+    font-size: 10px;
+    color: #444;
+    padding: 0 20px 4px;
+    font-style: italic;
+  }
 
-    /* ── SKILLS ── */
-    #skills { border-top: 1px solid var(--grey); }
-    .skills-header {
-      display: flex; align-items: flex-end; justify-content: space-between;
-      margin-bottom: 3rem;
-    }
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--grey);
-      border: 1px solid var(--grey);
-    }
-    .skill-card {
-      background: var(--off-black);
-      padding: 2rem;
-      position: relative;
-      overflow: hidden;
-      transition: background .3s;
-    }
-    .skill-card:hover { background: #161616; }
-    .skill-card:hover .skill-num { color: var(--pink); }
-    .skill-num {
-      font-family: var(--font-display);
-      font-size: 4rem;
-      color: var(--grey);
-      line-height: 1;
-      transition: color .3s;
-      display: block;
-    }
-    .skill-name {
-      font-family: var(--font-display);
-      font-size: 1.4rem;
-      letter-spacing: .05em;
-      margin: .5rem 0 .8rem;
-    }
-    .skill-desc { font-size: .7rem; line-height: 1.7; opacity: .6; }
-    .skill-bar-wrap {
-      margin-top: 1.5rem;
-      height: 2px;
-      background: var(--grey);
-    }
-    .skill-bar {
-      height: 100%;
-      background: var(--pink);
-      transform-origin: left;
-      transform: scaleX(0);
-      transition: transform 1s cubic-bezier(.22,1,.36,1);
-    }
-    .skill-card.visible .skill-bar { transform: scaleX(1); }
+  .credit a { color: #555; text-decoration: none; }
+  .credit a:hover { color: #888; }
 
-    /* ── WORK / PROJECTS ── */
-    #work { border-top: 1px solid var(--grey); }
-    .work-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1px;
-      background: var(--grey);
-      border: 1px solid var(--grey);
-      margin-top: 3rem;
-    }
-    .work-card {
-      background: var(--off-black);
-      padding: 2.5rem;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      transition: background .3s;
-    }
-    .work-card::after {
-      content: '↗';
-      position: absolute;
-      top: 1.5rem; right: 1.5rem;
-      font-size: 1.2rem;
-      opacity: 0;
-      transform: translate(-4px, 4px);
-      transition: opacity .3s, transform .3s;
-      color: var(--pink);
-    }
-    .work-card:hover { background: #141414; }
-    .work-card:hover::after { opacity: 1; transform: translate(0,0); }
-    .work-tag {
-      font-size: .65rem;
-      text-transform: uppercase;
-      letter-spacing: .18em;
-      color: var(--pink);
-      border: 1px solid var(--pink);
-      display: inline-block;
-      padding: .2rem .5rem;
-      margin-bottom: 1rem;
-    }
-    .work-title {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      letter-spacing: .05em;
-      margin-bottom: .8rem;
-    }
-    .work-desc { font-size: .75rem; line-height: 1.7; opacity: .65; }
-    .work-year {
-      margin-top: 1.5rem;
-      font-size: .65rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      opacity: .3;
-    }
+  /* ── GOAL BAR ── */
+  .goal-bar {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 4px 20px 0;
+    height: 36px;
+    background: #111;
+    border: 1px solid #2a2a2a;
+    border-radius: 4px;
+    overflow: hidden;
+  }
 
-    /* featured card */
-    .work-card.featured {
-      grid-column: span 2;
-      display: flex; gap: 3rem; align-items: center;
-    }
-    .work-card.featured .work-title { font-size: 3rem; }
-    .featured-visual {
-      flex-shrink: 0;
-      width: 200px; height: 140px;
-      background: var(--grey);
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-display);
-      font-size: 4rem;
-      color: var(--pink);
-      letter-spacing: .05em;
-    }
+  .goal-dollar {
+    padding: 0 10px;
+    font-size: 16px;
+    color: #666;
+    border-right: 1px solid #2a2a2a;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background: #0e0e0e;
+  }
 
-    /* ── CONTACT ── */
-    #contact {
-      border-top: 1px solid var(--grey);
-      text-align: center;
-      padding-bottom: 4rem;
-    }
-    .contact-title {
-      font-family: var(--font-display);
-      font-size: clamp(4rem, 10vw, 9rem);
-      letter-spacing: .03em;
-      line-height: 1;
-      margin: 1rem 0 3rem;
-    }
-    .contact-title span { color: var(--pink); }
+  .goal-label {
+    flex: 1;
+    padding: 0 12px;
+    color: #555;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
 
-    .contact-links {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-bottom: 3rem;
-    }
-    .contact-pill {
-      border: 1px solid var(--grey);
-      padding: .6rem 1.4rem;
-      font-size: .75rem;
-      letter-spacing: .1em;
-      border-radius: 99px;
-      color: var(--white);
-      text-decoration: none;
-      display: flex; align-items: center; gap: .5rem;
-      transition: border-color .2s, color .2s, background .2s;
-    }
-    .contact-pill:hover {
-      border-color: var(--pink);
-      color: var(--pink);
-      background: rgba(255,31,110,.06);
-    }
-    .contact-pill .dot {
-      width: 6px; height: 6px;
-      background: var(--pink);
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
+  .goal-progress {
+    height: 100%;
+    width: 4px;
+    background: #222;
+    position: relative;
+  }
 
-    /* ── Footer ── */
-    footer {
-      border-top: 1px solid var(--grey);
-      padding: 1.5rem 3rem;
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: .65rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      opacity: .4;
-    }
-    .logo-footer {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      letter-spacing: .2em;
-      opacity: 1;
-    }
-    .logo-footer span { color: var(--pink); }
+  .goal-tabs {
+    display: flex;
+    gap: 0;
+    height: 100%;
+  }
 
-    /* ── Scroll reveal ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity .8s ease, transform .8s ease;
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+  .goal-tab {
+    padding: 0 14px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: #555;
+    border-left: 1px solid #2a2a2a;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 40px;
+  }
 
-    /* ── Marquee ── */
-    .marquee-wrap {
-      border-top: 1px solid var(--grey);
-      border-bottom: 1px solid var(--grey);
-      padding: .8rem 0;
-      overflow: hidden;
-      white-space: nowrap;
-      background: var(--off-black);
-    }
-    .marquee-inner {
-      display: inline-block;
-      animation: marquee 18s linear infinite;
-    }
-    @keyframes marquee {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-    .marquee-item {
-      display: inline-block;
-      font-family: var(--font-display);
-      font-size: 1rem;
-      letter-spacing: .25em;
-      padding: 0 2rem;
-      color: var(--white);
-      opacity: .5;
-    }
-    .marquee-item.pink { color: var(--pink); opacity: 1; }
+  .goal-tab:hover { background: #1a1a1a; color: #888; }
+  .goal-tab.active { background: #222; color: #aaa; }
 
-    /* ── Responsive ── */
-    @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { gap: 1rem; }
-      section { padding: 4rem 1.5rem; }
-      #hero { grid-template-columns: 1fr; padding-top: 7rem; gap: 2rem; }
-      .polaroid { width: 220px; }
-      #about { grid-template-columns: 1fr; gap: 2rem; }
-      .skills-grid { grid-template-columns: 1fr; }
-      .work-grid { grid-template-columns: 1fr; }
-      .work-card.featured { grid-column: 1; flex-direction: column; gap: 1.5rem; }
-      footer { flex-direction: column; gap: .5rem; text-align: center; }
-    }
-  </style>
+  /* ── SECTION DIVIDERS ── */
+  .section-banner {
+    margin: 24px 20px 16px;
+    background: linear-gradient(90deg, #222 0%, #333 50%, #222 100%);
+    border: 1px solid #3a3a3a;
+    border-radius: 3px;
+    text-align: center;
+    padding: 8px 20px;
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ccc;
+    letter-spacing: 0.2em;
+    text-shadow: 0 0 10px rgba(255,255,255,0.1);
+    position: relative;
+  }
+
+  .section-banner::before,
+  .section-banner::after {
+    content: '—';
+    margin: 0 8px;
+    color: #888;
+  }
+
+  .section-large-header {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: clamp(18px, 5vw, 28px);
+    color: var(--white);
+    text-align: center;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 20px 20px 12px;
+    text-shadow: 0 0 20px rgba(255,255,255,0.06);
+  }
+
+  /* ── BODY TEXT ── */
+  .body-text {
+    padding: 0 20px;
+    font-size: 13px;
+    color: #999;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* ── BYF / DNI LIST ── */
+  .info-list {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .info-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .info-item .bullet {
+    color: #555;
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-size: 13px;
+  }
+
+  .info-item .bullet.cross { color: #666; }
+
+  .info-item .content { color: #aaa; }
+  .info-item .content strong { color: #ccc; font-weight: normal; text-decoration: underline; text-decoration-style: dotted; }
+  .info-item .content a { color: #999; text-decoration: underline; text-decoration-style: dotted; }
+
+  /* ── SUBHEADER BANNER (dagger style) ── */
+  .sub-banner {
+    margin: 20px 20px 12px;
+    background: linear-gradient(90deg, #1a1a1a 0%, #252525 40%, #1f1f1f 100%);
+    border: 1px solid #2d2d2d;
+    border-radius: 3px;
+    padding: 7px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #bbb;
+    text-align: center;
+    letter-spacing: 0.1em;
+  }
+
+  .sub-banner .dagger { margin: 0 8px; color: #777; }
+
+  /* ── BULLET LIST (dagger) ── */
+  .dagger-list {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .dagger-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .dagger-item .sym { color: #555; flex-shrink: 0; }
+
+  .dagger-item .row1 { color: #aaa; }
+  .dagger-item .row1 .bold-label { color: #ccc; font-weight: bold; }
+  .dagger-item .row1 .italic-or { font-style: italic; color: #777; }
+  .dagger-item .row2 { color: #888; margin-top: 1px; }
+  .dagger-item .row2 .bold-label { color: #bbb; font-weight: bold; }
+
+  /* ── SMALL SUBHEADER (plain text) ── */
+  .plain-subheader {
+    padding: 16px 20px 6px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: #777;
+    text-transform: uppercase;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline-wrap {
+    position: relative;
+    padding: 12px 20px 12px;
+    margin: 8px 0;
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: #2a2a2a;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 10px;
+    background: #444;
+    border-radius: 50%;
+    border: 1px solid #666;
+  }
+
+  .timeline-dot.top { top: 0; }
+  .timeline-dot.bottom { bottom: 0; }
+
+  .timeline-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    min-height: 90px;
+    border-bottom: 1px solid #1e1e1e;
+  }
+
+  .timeline-item:last-child { border-bottom: none; }
+
+  .tl-left, .tl-right {
+    padding: 16px 20px;
+  }
+
+  .tl-left {
+    text-align: right;
+    border-right: 1px solid #2a2a2a;
+  }
+
+  .tl-right {
+    text-align: left;
+    border-left: 1px solid #2a2a2a;
+  }
+
+  .timeline-item.right-side .tl-left { opacity: 0; }
+  .timeline-item.left-side .tl-right { opacity: 0; }
+
+  .tl-header {
+    font-weight: bold;
+    color: #ccc;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  .tl-sub {
+    font-size: 11px;
+    color: #666;
+    line-height: 1.5;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: #1a1a1a;
+    margin: 0 20px;
+  }
+
+  /* ── NAVIGATION TABS (bottom) ── */
+  .nav-tabs {
+    display: flex;
+    border-top: 1px solid #222;
+    margin-top: 20px;
+    position: sticky;
+    bottom: 0;
+    background: #050505;
+    z-index: 10;
+  }
+
+  .nav-tab {
+    flex: 1;
+    padding: 12px 8px;
+    text-align: center;
+    font-size: 11px;
+    color: #555;
+    cursor: pointer;
+    border-right: 1px solid #1a1a1a;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .nav-tab:last-child { border-right: none; }
+  .nav-tab:hover { background: #0e0e0e; color: #888; }
+  .nav-tab.active { background: #111; color: #aaa; border-top: 2px solid #444; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+  /* ── GLITCH hover on username ── */
+  .username:hover {
+    animation: glitch 0.3s steps(2) infinite;
+  }
+
+  @keyframes glitch {
+    0% { text-shadow: 2px 0 #fff, -2px 0 #444; }
+    25% { text-shadow: -2px 0 #fff, 2px 0 #444; }
+    50% { text-shadow: 2px 2px #fff, -2px -2px #444; }
+    75% { text-shadow: -1px 0 #ccc, 1px 0 #666; }
+    100% { text-shadow: 0 0 #fff; }
+  }
+
+  /* Fade-in on load */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .page > * {
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .header-card { animation-delay: 0.05s; }
+  .goal-bar    { animation-delay: 0.15s; }
+</style>
 </head>
 <body>
 
-  <div id="cursor"></div>
+<div class="page">
 
-  <!-- NAV -->
-  <nav>
-    <span class="nav-logo">BRUNO<span>.</span>GRAZINA</span>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#work">Work</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+  <!-- ── HEADER ── -->
+  <div class="header-card">
+    <div class="username">USERNAME</div>
 
-  <!-- MARQUEE -->
-  <div class="marquee-wrap" style="margin-top:72px;">
-    <div class="marquee-inner">
-      <span class="marquee-item">DESIGNER</span>
-      <span class="marquee-item pink">✦</span>
-      <span class="marquee-item">ILLUSTRATOR</span>
-      <span class="marquee-item pink">✦</span>
-      <span class="marquee-item">ARTIST</span>
-      <span class="marquee-item pink">✦</span>
-      <span class="marquee-item">PORTUGAL</span>
-      <span class="marquee-item pink">✦</span>
-      <span class="marquee-item">VISUAL COMMUNICATION</span>
-      <span class="marquee-item pink">✦</span>
-      <!-- duplicate for seamless loop -->
-      <span class="marquee-item">DESIGNER</span>
-      <span class="marquee-item pink">✦</span>
-      <span class="marquee-item">ILLUSTRATOR</span>
-      <span class="marquee-item pink">✦</span>
-      <span class="marquee-item">ARTIST</span>
-      <span class="marquee-item pink">✦</span>
-      <span class="marquee-item">PORTUGAL</span>
-      <span class="marquee-item pink">✦</span>
-      <span class="marquee-item">VISUAL COMMUNICATION</span>
-      <span class="marquee-item pink">✦</span>
+    <!-- Meta row 1 -->
+    <div class="meta-left">
+      <div class="meta-row">
+        <span class="meta-icon">✶</span>
+        <span class="meta-icon">🔔</span>
+        <span class="label"><a href="#" style="color:inherit;text-decoration:underline;text-decoration-style:dotted;">NAME</a></span>
+        <span class="meta-icon">✦</span>
+        <span>pr/ns</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-icon">$</span>
+        <span class="sep">//</span>
+        <span class="label">XX</span>
+        <span class="sep">/</span>
+        <span>info</span>
+        <span>info</span>
+        <span class="meta-icon">✦</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-icon">⌐</span>
+        <span>info</span>
+        <span class="meta-icon">★</span>
+        <span>info</span>
+        <span>info</span>
+      </div>
+
+      <!-- Social buttons -->
+      <div class="social-row">
+        <a href="#" class="social-btn" title="Twitter/X">
+          <!-- Twitter bird SVG -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.46 5.99c-.77.35-1.6.58-2.46.69a4.27 4.27 0 0 0 1.88-2.36c-.83.49-1.75.85-2.72 1.04A4.26 4.26 0 0 0 12 9.46c0 .33.04.66.1.97C8.28 10.24 5 8.38 2.89 5.6a4.23 4.23 0 0 0-.58 2.14c0 1.48.75 2.78 1.9 3.54a4.24 4.24 0 0 1-1.93-.53v.05c0 2.06 1.47 3.78 3.41 4.17a4.3 4.3 0 0 1-1.92.07c.54 1.7 2.12 2.93 3.99 2.96A8.55 8.55 0 0 1 2 19.54a12.07 12.07 0 0 0 6.55 1.92c7.86 0 12.16-6.51 12.16-12.16l-.01-.55c.83-.6 1.56-1.36 2.14-2.22l-.38.46z"/></svg>
+        </a>
+        <a href="#" class="social-btn" title="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="#" class="social-btn" title="Other">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </a>
+      </div>
+
+      <!-- Bio -->
+      <div class="bio-line">
+        <span class="meta-icon">✶</span>
+        <span>✦</span>
+        put some <span class="more-link">more</span>
+        <span>†</span>
+      </div>
+      <div class="bio-line" style="margin-top:-4px; padding-left:28px;">
+        text right here i guess
+        <span style="font-size:15px;">✦</span>
+      </div>
+    </div>
+
+    <!-- Beast image placeholder -->
+    <div class="beast-placeholder">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Stylized maw / fangs silhouette -->
+        <ellipse cx="50" cy="45" rx="38" ry="30" fill="#1a1a1a"/>
+        <path d="M20 60 Q30 80 40 55 L45 75 Q50 85 55 75 L60 55 Q70 80 80 60 Q65 95 50 90 Q35 95 20 60Z" fill="#222"/>
+        <!-- top fangs -->
+        <path d="M32 45 L28 20 L38 42Z" fill="#333"/>
+        <path d="M44 43 L42 18 L52 40Z" fill="#333"/>
+        <path d="M56 43 L58 18 L48 40Z" fill="#333"/>
+        <path d="M68 45 L72 20 L62 42Z" fill="#333"/>
+        <!-- bottom fangs -->
+        <path d="M35 62 L32 82 L40 64Z" fill="#2d2d2d"/>
+        <path d="M50 63 L47 85 L55 65Z" fill="#2d2d2d"/>
+        <path d="M64 62 L68 82 L60 64Z" fill="#2d2d2d"/>
+        <!-- Eyes -->
+        <ellipse cx="36" cy="35" rx="5" ry="4" fill="#111"/>
+        <ellipse cx="64" cy="35" rx="5" ry="4" fill="#111"/>
+      </svg>
     </div>
   </div>
 
-  <!-- HERO -->
-  <section id="hero">
+  <div class="credit">cr <a href="https://sooberds.crd.co/" target="_blank">sooberds</a></div>
 
-    <!-- rotating ring -->
-    <div class="ring-container">
-      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <path id="circ" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0" fill="none"/>
-        <text><textPath href="#circ">DESIGNER · ILLUSTRATOR · ARTIST · PORTUGAL · CREATIVE · </textPath></text>
-      </svg>
+  <!-- ── GOAL BAR ── -->
+  <div class="goal-bar">
+    <div class="goal-dollar">$</div>
+    <div class="goal-label">Goal</div>
+    <div class="goal-tabs">
+      <div class="goal-tab active">00</div>
+      <div class="goal-tab">01</div>
+      <div class="goal-tab">02</div>
+      <div class="goal-tab">03</div>
     </div>
+  </div>
 
-    <div class="hero-left reveal">
-      <span class="cross cross-1">+</span>
-      <span class="cross cross-2">×</span>
+  <!-- ══════════════════════════════════
+       PAGE 1 — HOME / INFO
+       ══════════════════════════════════ -->
+  <section id="home">
 
-      <div class="polaroid">
-        <!-- Placeholder silhouette — replace src with your own photo -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 300" style="width:100%;height:300px;display:block;background:#ccc;">
-          <rect width="260" height="300" fill="#bbb"/>
-          <!-- head -->
-          <ellipse cx="130" cy="100" rx="55" ry="65" fill="#888"/>
-          <!-- shoulders -->
-          <path d="M20 300 Q130 200 240 300 Z" fill="#777"/>
-        </svg>
-        <div class="polaroid-label">
-          <span>21 years</span>
-          <span>Nationality: PT-PT</span>
-        </div>
-        <span class="badge-designer sticker">About Me</span>
-      </div>
-    </div>
+    <!-- BYF -->
+    <div class="section-banner">BYF</div>
 
-    <div class="hero-right reveal" style="transition-delay:.2s">
-      <div class="hi-text">HI</div>
-      <p class="intro-text">
-        My name is Bruno Grazina, I'm a designer / illustrator / artist based in Portugal.
-      </p>
-      <div class="tagline-block">
-        <div class="tagline-item">
-          <span class="label">Ever since</span>
-          I remember I've always had a special interest in visual communication, from the most simple sketch to the most elaborate presentation.
-        </div>
-        <div class="tagline-item">
-          <span class="label">I live to</span>
-          discover and experience creative ways to express myself and do it for others.
+    <div class="info-list">
+      <div class="info-item">
+        <span class="bullet">›</span>
+        <div class="content">
+          <strong>Put your BYF information here.</strong> This is your before-you-follow section. Add any rules, info, or notes you want people to read before interacting.
         </div>
       </div>
-      <span class="deco-L">L</span>
+      <div class="info-item">
+        <span class="bullet">›</span>
+        <div class="content">
+          Add another BYF point here. Mention anything relevant about how you interact or what you expect from followers.
+        </div>
+      </div>
+      <div class="info-item">
+        <span class="bullet">›</span>
+        <div class="content">
+          More info about your account, content type, age restriction, or anything else you'd like to share.
+        </div>
+      </div>
+      <div class="info-item">
+        <span class="bullet">›</span>
+        <div class="content">
+          Final BYF note here. Link to external resources if needed: <a href="#">link text here</a>
+        </div>
+      </div>
     </div>
+
+    <!-- DNI -->
+    <div class="section-banner">DNI</div>
+
+    <div class="info-list">
+      <div class="info-item">
+        <span class="bullet cross">×</span>
+        <div class="content"><strong>Put your DNI info here.</strong></div>
+      </div>
+      <div class="info-item">
+        <span class="bullet cross">×</span>
+        <div class="content">Basic DNI Carrd link is <a href="https://basicdni.carrd.co/">https://basicdni.carrd.co/</a></div>
+      </div>
+      <div class="info-item">
+        <span class="bullet cross">×</span>
+        <div class="content">Add more DNI criteria here as needed.</div>
+      </div>
+    </div>
+
   </section>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="reveal">
-      <span class="section-tag">// 001 — About</span>
-      <h2 class="section-title">WHO<br>AM I</h2>
-      <p class="about-body">
-        I'm Bruno Grazina — a 21-year-old Portuguese designer, illustrator, and artist. I craft identities, illustrations, and visual concepts that communicate ideas in the boldest, most honest way possible.<br><br>
-        My work sits at the intersection of raw sketching and polished digital execution. Whether it's a brand identity, an editorial spread, or a custom illustration, I approach every project with the same energy: total commitment to the visual idea.
-      </p>
+  <!-- ══════════════════════════════════
+       PAGE 2 — INFO / SUBHEADER
+       ══════════════════════════════════ -->
+  <section id="info">
+    <div class="divider" style="margin-top:24px;"></div>
+
+    <div class="section-large-header">SUBHEADER HERE</div>
+
+    <div class="body-text">
+      Text text text, info info text here. Put whatever you want. This is a general text section for any information you'd like to share about yourself, your interests, or your content.
     </div>
 
-    <div class="info-grid reveal" style="transition-delay:.15s; align-self:center;">
-      <div class="info-item">
-        <div class="info-label">Age</div>
-        <div class="info-value">21</div>
-      </div>
-      <div class="info-item">
-        <div class="info-label">Nationality</div>
-        <div class="info-value">PT-PT</div>
-      </div>
-      <div class="info-item">
-        <div class="info-label">Based in</div>
-        <div class="info-value">Portugal</div>
-      </div>
-      <div class="info-item">
-        <div class="info-label">Focus</div>
-        <div class="info-value">Design</div>
-      </div>
-      <div class="info-item">
-        <div class="info-label">Style</div>
-        <div class="info-value">Bold</div>
-      </div>
-      <div class="info-item">
-        <div class="info-label">Status</div>
-        <div class="info-value" style="color:var(--pink);">Open</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SKILLS -->
-  <section id="skills">
-    <div class="skills-header reveal">
-      <div>
-        <span class="section-tag">// 002 — Skills</span>
-        <h2 class="section-title">WHAT<br>I DO</h2>
-      </div>
+    <!-- Dagger subheader -->
+    <div class="sub-banner">
+      <span class="dagger">†</span> Subheader <span class="dagger">†</span>
     </div>
 
-    <div class="skills-grid">
-      <div class="skill-card reveal">
-        <span class="skill-num">01</span>
-        <div class="skill-name">Graphic Design</div>
-        <p class="skill-desc">Brand identities, posters, layouts — building visual systems that feel alive and speak clearly.</p>
-        <div class="skill-bar-wrap"><div class="skill-bar" style="--w:.92" data-w=".92"></div></div>
-      </div>
-      <div class="skill-card reveal" style="transition-delay:.1s">
-        <span class="skill-num">02</span>
-        <div class="skill-name">Illustration</div>
-        <p class="skill-desc">From quick ink sketches to detailed digital renders — storytelling through line, shape, and texture.</p>
-        <div class="skill-bar-wrap"><div class="skill-bar" data-w=".88"></div></div>
-      </div>
-      <div class="skill-card reveal" style="transition-delay:.2s">
-        <span class="skill-num">03</span>
-        <div class="skill-name">Typography</div>
-        <p class="skill-desc">Type as image, type as voice. Crafting compositions where words carry weight beyond their meaning.</p>
-        <div class="skill-bar-wrap"><div class="skill-bar" data-w=".85"></div></div>
-      </div>
-      <div class="skill-card reveal" style="transition-delay:.3s">
-        <span class="skill-num">04</span>
-        <div class="skill-name">Visual Identity</div>
-        <p class="skill-desc">Complete brand systems — logos, palettes, guidelines — built to last and scale.</p>
-        <div class="skill-bar-wrap"><div class="skill-bar" data-w=".80"></div></div>
-      </div>
-      <div class="skill-card reveal" style="transition-delay:.4s">
-        <span class="skill-num">05</span>
-        <div class="skill-name">Art Direction</div>
-        <p class="skill-desc">Steering creative vision from concept to final execution across all touchpoints.</p>
-        <div class="skill-bar-wrap"><div class="skill-bar" data-w=".75"></div></div>
-      </div>
-      <div class="skill-card reveal" style="transition-delay:.5s">
-        <span class="skill-num">06</span>
-        <div class="skill-name">Motion / UI</div>
-        <p class="skill-desc">Bringing static designs to life; interfaces with personality and digital experiences that surprise.</p>
-        <div class="skill-bar-wrap"><div class="skill-bar" data-w=".65"></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WORK -->
-  <section id="work">
-    <span class="section-tag reveal">// 003 — Work</span>
-    <h2 class="section-title reveal">SELECTED<br>PROJECTS</h2>
-
-    <div class="work-grid">
-
-      <div class="work-card featured reveal">
-        <div class="featured-visual">BG</div>
+    <div class="dagger-list">
+      <div class="dagger-item">
+        <span class="sym">›</span>
         <div>
-          <span class="work-tag">Branding</span>
-          <div class="work-title">Personal Brand Identity</div>
-          <p class="work-desc">Full brand system for Bruno Grazina — logo, typography system, motion assets, and brand guidelines built for a designer-illustrator working across print and digital.</p>
-          <div class="work-year">2024</div>
+          <div class="row1">Text &nbsp;<span class="meta-icon">✦</span>&nbsp; <span class="bold-label">info info</span> &nbsp;<span class="italic-or">or</span>&nbsp; info info</div>
+          <div class="row2"><span class="bold-label">Additional</span> info info text info info</div>
         </div>
       </div>
-
-      <div class="work-card reveal">
-        <span class="work-tag">Illustration</span>
-        <div class="work-title">Character Series</div>
-        <p class="work-desc">An ongoing series of illustrated characters exploring identity, culture, and emotion through bold outlines and minimal color palettes.</p>
-        <div class="work-year">2024</div>
+      <div class="dagger-item">
+        <span class="sym">›</span>
+        <div>
+          <div class="row1">Text &nbsp;<span class="meta-icon">✦</span>&nbsp; <span class="bold-label">info info</span> &nbsp;<span class="italic-or">or</span>&nbsp; info info</div>
+          <div class="row2"><span class="bold-label">Additional</span> info info text info info</div>
+        </div>
       </div>
-
-      <div class="work-card reveal" style="transition-delay:.1s">
-        <span class="work-tag">Editorial</span>
-        <div class="work-title">Zine — Visual Noise</div>
-        <p class="work-desc">Self-published editorial zine merging typographic experimentation with hand-drawn textures.</p>
-        <div class="work-year">2023</div>
-      </div>
-
-      <div class="work-card reveal" style="transition-delay:.2s">
-        <span class="work-tag">Poster Design</span>
-        <div class="work-title">Event Posters</div>
-        <p class="work-desc">Concert and cultural event poster series — pushing layout, type hierarchy, and print reproduction limits.</p>
-        <div class="work-year">2023</div>
-      </div>
-
-      <div class="work-card reveal" style="transition-delay:.3s">
-        <span class="work-tag">Behance</span>
-        <div class="work-title">View Full Portfolio</div>
-        <p class="work-desc">All projects, case studies, and experiments live on Behance. Explore the full body of work.</p>
-        <div class="work-year" style="color:var(--pink); opacity:1;">→ behance.net/brunoluden</div>
-      </div>
-
     </div>
+
+    <!-- Second subheader plain -->
+    <div class="plain-subheader">Second Subheader . . .</div>
+
+    <div class="dagger-list">
+      <div class="dagger-item">
+        <span class="sym">+</span>
+        <div>
+          <div class="row1">Text &nbsp;<span class="meta-icon">✦</span>&nbsp; <span class="bold-label">info info</span> &nbsp;<span class="italic-or">or</span>&nbsp; info info</div>
+          <div class="row2"><span class="bold-label">Additional</span> info info text info info</div>
+        </div>
+      </div>
+      <div class="dagger-item">
+        <span class="sym">+</span>
+        <div>
+          <div class="row1">Text &nbsp;<span class="meta-icon">✦</span>&nbsp; <span class="bold-label">info info</span> &nbsp;<span class="italic-or">or</span>&nbsp; info info</div>
+          <div class="row2"><span class="bold-label">Additional</span> info info text info info</div>
+        </div>
+      </div>
+    </div>
+
   </section>
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <span class="section-tag">// 004 — Contact</span>
-    <div class="contact-title reveal">
-      LET'S<br><span>WORK</span>
-    </div>
+  <!-- ══════════════════════════════════
+       PAGE 3 — TIMELINE
+       ══════════════════════════════════ -->
+  <section id="timeline">
+    <div class="divider" style="margin-top:24px;"></div>
 
-    <div class="contact-links reveal">
-      <a href="mailto:brugrazina@gmail.com" class="contact-pill">
-        <span class="dot"></span>
-        brugrazina@gmail.com
-      </a>
-      <a href="tel:+351936562723" class="contact-pill">
-        <span class="dot"></span>
-        +351 936 562 723
-      </a>
-      <a href="https://www.behance.net/brunoluden" target="_blank" class="contact-pill">
-        <span class="dot"></span>
-        behance.net/brunoluden
-      </a>
-    </div>
-  </section>
+    <div class="section-large-header">SUBHEADER HERE</div>
 
-  <!-- FOOTER -->
-  <footer>
-    <span class="logo-footer">BRUNO<span>.</span>GRAZINA</span>
-    <span>DESIGNER · ILLUSTRATOR · ARTIST · PORTUGAL</span>
-    <span>© 2025</span>
-  </footer>
+    <div class="timeline-wrap">
+      <div class="timeline-line"></div>
+      <div class="timeline-dot top"></div>
 
-  <script>
-    // ── Custom cursor ──
-    const cursor = document.getElementById('cursor');
-    document.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top  = e.clientY + 'px';
-    });
-    document.querySelectorAll('a, button, .work-card, .skill-card').forEach(el => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('big'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
-    });
+      <div class="timeline-items">
 
-    // ── Intersection Observer for reveal + skill bars ──
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          // skill bars
-          const bar = entry.target.querySelector('.skill-bar');
-          if (bar) {
-            const w = bar.dataset.w || 1;
-            bar.style.transform = `scaleX(${w})`;
-          }
-        }
-      });
-    }, { threshold: 0.15 });
+        <div class="timeline-item left-side">
+          <div class="tl-left">
+            <div class="tl-header">Section Header</div>
+            <div class="tl-sub">short subheader goes<br>here, 2 lines max</div>
+          </div>
+          <div class="tl-right"></div>
+        </div>
 
-    document.querySelectorAll('.reveal, .skill-card').forEach(el => observer.observe(el));
-  </script>
-</body>
-</html>
+        <div class="timeline-item right-side">
+          <div class="tl-left"></div>
+      
